@@ -1,0 +1,33 @@
+weights:
+
+  # T1071.004 - DNS
+  # Low mean TTL = short-lived attacker-controlled infrastructure
+  ttl_low_mean: 0.15
+
+  # T1568 - Dynamic Resolution
+  # Low TTL variance = uniform manipulation, fast-flux staging
+  ttl_variance_low: 0.15
+
+  # T1568.002 - Domain Generation Algorithms
+  # High Shannon entropy on subdomain labels = DGA or DNS tunnel payload
+  subdomain_entropy: 0.20
+
+  # T1071.004 - DNS
+  # Long uniform query lengths = DNS tunneling data encoding
+  query_length_anomaly: 0.15
+
+  # T1568.002 - Domain Generation Algorithms
+  # High NXDOMAIN ratio = DGA miss pattern
+  nxdomain_ratio: 0.12
+
+  # T1568.001 - Fast Flux DNS
+  # Multiple different answer sets = fast-flux IP rotation
+  resolver_inconsistency: 0.10
+
+  # T1568 - Dynamic Resolution
+  # Sudden TTL drop mid-window = infrastructure pivot or C2 rotation
+  ttl_sudden_drop: 0.08
+
+  # T1071.004 - DNS
+  # High query rate to single domain = automated DNS beaconing
+  query_frequency: 0.05
