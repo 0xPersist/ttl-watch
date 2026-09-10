@@ -188,7 +188,11 @@ def _resolver_inconsistency_score(answer_sets: list[frozenset]) -> tuple[float, 
         return 0.0, "insufficient answer samples"
     unique_sets = len(set(answer_sets))
     total = len(answer_sets)
-    churn_ratio = unique_sets / total
+    # Churn is measured over the *changes* between answers, not the answers
+    # themselves: the first answer set establishes the baseline and cannot
+    # itself be churn. A domain that always returns the same set scores 0.0;
+    # one that returns a different set every query scores 1.0.
+    churn_ratio = (unique_sets - 1) / (total - 1)
     # > 50% unique answer sets = high churn
     score = min(1.0, churn_ratio / 0.5)
     return (
