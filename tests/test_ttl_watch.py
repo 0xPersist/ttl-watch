@@ -657,3 +657,21 @@ class TestRenderer:
         _fallback_detail(candidate)
         captured = capsys.readouterr()
         assert candidate.domain in captured.out
+
+    def test_ts_to_human_fixed_epoch(self):
+        """
+        DNS record timestamps are epoch seconds and render as UTC wall time.
+        Pinned to an exact string: the formatter carries no %z/%Z, so moving
+        from the deprecated naive utcfromtimestamp() to a tz-aware datetime
+        must not change a single character of output.
+        """
+        from ttl_watch.renderer import _ts_to_human
+        assert _ts_to_human("1700000000") == "2023-11-14 22:13:20"
+        assert _ts_to_human("1700000000.0") == "2023-11-14 22:13:20"
+
+    def test_ts_to_human_rejects_junk(self):
+        from ttl_watch.renderer import _ts_to_human
+        assert _ts_to_human("0") == "unknown"
+        assert _ts_to_human("-1") == "unknown"
+        assert _ts_to_human("") == "unknown"
+        assert _ts_to_human("not-a-timestamp") == "not-a-timestamp"
