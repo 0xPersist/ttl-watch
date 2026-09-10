@@ -39,7 +39,7 @@ Expect a broad MEDIUM band rather than a short list: on a single 24-hour capture
 | `subdomain_entropy` | T1568.002 | High Shannon entropy on subdomain labels — DGA indicator. **Does not separate tunnels from CDNs: measured on a real dnscat2 tunnel it scored 0.742 against 0.749 for a benign `elasticbeanstalk.com`.** |
 | `query_length_anomaly` | T1071.004 | Long, uniform query lengths — DNS tunneling data encoding. **Weak on real traffic: scored 0.334 on a real dnscat2 tunnel (mean length 32.8, CoV 0.390).** |
 | `nxdomain_ratio` | T1568.002 | High NXDOMAIN rate — DGA miss pattern |
-| `resolver_inconsistency` | T1568.001 | Rotating answer sets per query — fast-flux IP churn. **Known bug: returns 0.1 rather than 0.0 for perfectly stable resolution, so every domain picks up a small baseline from this signal.** |
+| `resolver_inconsistency` | T1568.001 | Rotating answer sets per query — fast-flux IP churn. Measured as the share of answers that differ from the one before them, so stable resolution scores 0.0 and a fresh answer set on every query scores 1.0. |
 | `ttl_sudden_drop` | T1568 | TTL drops sharply mid-window — infrastructure pivot or C2 rotation |
 | `query_frequency` | T1071.004 | High query rate to single domain — automated DNS beaconing |
 
