@@ -4,7 +4,7 @@ Rich terminal output with fallback to plain text when Rich is unavailable.
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from .engine import DomainCandidate
 
 
@@ -29,7 +29,7 @@ def _ts_to_human(ts_str: str) -> str:
         ts = float(ts_str)
         if ts <= 0:
             return "unknown"
-        return datetime.utcfromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+        return datetime.fromtimestamp(ts, tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     except Exception:
         return ts_str or "unknown"
 
