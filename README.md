@@ -195,8 +195,6 @@ pip install pytest
 pytest tests/ -v
 ```
 
-**Known failure:** `TestResolverInconsistency::test_consistent` fails (`assert 0.1 == 0.0`). Twenty identical answer sets — perfectly stable resolution — score 0.1 instead of 0.0. That is the `resolver_inconsistency` floor noted in the signals table, caught by the suite's own assertion.
-
 ---
 
 ## Flags
