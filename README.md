@@ -4,7 +4,7 @@
 
 ttl-watch scores domain families from Zeek `dns.log` using eight signals: TTL behavioral modeling, subdomain entropy, query length distribution, NXDOMAIN ratio, resolver inconsistency, and sudden TTL pivot detection. Drop in a PCAP and it handles Zeek invocation automatically (requires Zeek installed and in PATH).
 
-> **Known limitation — tunnel ranking.** The tunnelling signals fire on real tunnels but do not rank them highly. Measured against the dnscat2 tunnel in the RITA `dnscat2-ja3-strobe-agent` capture (109,227 queries, 62,467 unique subdomains from one host), `r-1x.com` scored **0.4808 MEDIUM at rank 34 of 672** — below the default `--top 20`. `--min-queries 500` lifts it only to rank 3 of 60. Treat a MEDIUM here as worth reading, not as the tool having ranked your tunnel first. See "Scoring caveats" below.
+> **Known limitation — tunnel ranking.** The tunnelling signals fire on real tunnels but do not rank them highly. Measured against the dnscat2 tunnel in the RITA `dnscat2-ja3-strobe-agent` capture (109,227 queries, 62,467 unique subdomains from one host), `r-1x.com` scored **0.4808 MEDIUM at rank 26 of 672** — below the default `--top 20`. `--min-queries 500` lifts it only to rank 3 of 60. Treat a MEDIUM here as worth reading, not as the tool having ranked your tunnel first. See "Scoring caveats" below.
 
 ```
 $ ttl-watch --dns dns.log --detail
@@ -161,7 +161,7 @@ ttl-watch --dns dns.log --config weights.yaml
 Two things to know before trusting a ranking:
 
 - **`unique_subdomains` is reported but not scored.** It appears in the table and the JSON, and it is the strongest available separator — a real dnscat2 tunnel showed 62,467 unique subdomains against 5 for a benign CDN domain — but it carries no weight in the total.
-- **Small samples score high.** With the default `--min-queries 3`, a domain with five queries can take the top slot. On the capture above the single HIGH result was `infolinks.com` with 5 queries and 1 unique subdomain, while the real tunnel sat at rank 34.
+- **Small samples score high.** With the default `--min-queries 3`, a domain with five queries can take the top slot. On the capture above the single HIGH result was `infolinks.com` with 5 queries and 1 unique subdomain, while the real tunnel sat at rank 26.
 
 ---
 
